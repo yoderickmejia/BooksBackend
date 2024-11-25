@@ -5,7 +5,7 @@ import { Reviews } from "../Models/Reviews.Models.js";
 export const getReviews = async (req, res) => {
     try {
         const { userId } = req.params;
-        console.log("Received params:", req.params);
+        
 
         if (!userId) {
             return res.status(400).json({ message: "userId is required." });
