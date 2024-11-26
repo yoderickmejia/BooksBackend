@@ -16,31 +16,31 @@ axios: Cliente HTTP para realizar solicitudes HTTP.
 Archivo principal de API
 
 // imports
-import express from 'express';
+`import express from 'express';
 import dotenv from 'dotenv';    
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import router from './src/Routes/Routes.js';    
 import { databaseConnect } from "./src/Services/database.js";
-const app = express();
+const app = express();`
 
 //middleware  
-dotenv.config();  
+`dotenv.config();  
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors());`
 
 
-app.use('/', router);
+`app.use('/', router);
 //Port
 const desiredPort = process.env.PORT || 88;
 app.listen(desiredPort, () => {
     console.log(`server listening in port ${desiredPort}`);
-});
+});`
 
 
 //connect to database
-databaseConnect(process.env.DB_CONNECTION);
+`databaseConnect(process.env.DB_CONNECTION);`
 
 
 Rutas de la API
@@ -66,7 +66,7 @@ Controladores
 
 Controladores de Usuarios
 
-export const registerUser = async (req, res) => {
+`export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const existingUser = await User.findOne({ email });
@@ -79,9 +79,9 @@ export const registerUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};`
 
-export const loginUser = async (req, res) => {
+`export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -97,21 +97,21 @@ export const loginUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};`
 
 Controladores de Libros
 
 
-export const getBooks = async (req, res) => {
+`export const getBooks = async (req, res) => {
   try {
     const books = await Books.find();
     res.status(200).json(books);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};`
 
-export const getBookById = async (req, res) => {
+`export const getBookById = async (req, res) => {
   try {
     const { id } = req.params;
     const book = await Books.findById(id);
@@ -122,9 +122,9 @@ export const getBookById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};`
 
-export const createBook = async (req, res) => {
+`export const createBook = async (req, res) => {
   try {
     const { title, author, year, genre, coverImage, rating, userId } = req.body;
     const book = await Books.create({ title, author, year, genre, coverImage, rating, userId });
@@ -132,9 +132,9 @@ export const createBook = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};`
 
-export const updateBook = async (req, res) => {
+`export const updateBook = async (req, res) => {
   try {
     const { id } = req.params;
     const book = await Books.findByIdAndUpdate(id, req.body, { new: true });
@@ -145,9 +145,9 @@ export const updateBook = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};`
 
-export const deleteBook = async (req, res) => {
+`export const deleteBook = async (req, res) => {
   try {
     const { id } = req.params;
     const book = await Books.findByIdAndDelete(id);
@@ -158,9 +158,9 @@ export const deleteBook = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};`
 
-export const markAsFavorite = async (req, res) => {
+`export const markAsFavorite = async (req, res) => {
   try {
     const { id } = req.params;
     const book = await Books.findById(id);
@@ -173,9 +173,9 @@ export const markAsFavorite = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};`
 
-export const searchBooks = async (req, res) => {
+`export const searchBooks = async (req, res) => {
   try {
     const { userId, title, page = 1 } = req.query;
     const limit = 10;
@@ -189,11 +189,11 @@ export const searchBooks = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};`
 
 Controladores de Reseñas
 
-export const addReview = async (req, res) => {
+`export const addReview = async (req, res) => {
   try {
     const { bookId, userId, rating, comment } = req.body;
     const review = await Reviews.create({ bookId, userId, rating, comment });
@@ -201,11 +201,11 @@ export const addReview = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+};`
 
-export const getReviews = async (req, res) => {
+`export const getReviews = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const { userId } = req.params;`
         
         if (!userId) {
             return res.status(400).json({ message: "userId is required." });
@@ -222,24 +222,24 @@ export const getReviews = async (req, res) => {
         console.error("Error fetching reviews:", error);
         res.status(500).json({ message: "Internal server error." });
     }
-};
+`};`
 
 
 Modelos de Mongo DB
 
 Modelo de Usuario
 
-const userSchema = new mongoose.Schema({
+`const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 });
-
+`
 
 
 Modelo de Libro
 
-const bookSchema = new mongoose.Schema({
+`const bookSchema = new mongoose.Schema({
   title: { type: String, required: true },
   author: { type: String, required: true },
   year: { type: Number, required: true },
@@ -248,26 +248,26 @@ const bookSchema = new mongoose.Schema({
   rating: { type: Number, required: true },
   isFavorite: { type: Boolean, default: false },
   userId: { type: String, required: true },
-});
+});`
 
 Modelo de Reseña
 
-const reviewSchema = new mongoose.Schema({
+`const reviewSchema = new mongoose.Schema({
   bookId: { type: mongoose.Schema.Types.ObjectId, ref: 'Books', required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   rating: { type: Number, required: true, min: 1, max: 5 },
   comment: { type: String, required: true },
-});
+});`
 
 
 Encrytamiento de contraseña
 
-export default function hash(data) {
+`export default function hash(data) {
   return crypto.createHash('sha256').update(data).digest('base64');
-}
+}`
 
 Conexion a la base de datos
-export const databaseConnect = (DB_CONNECTION) => {
+`export const databaseConnect = (DB_CONNECTION) => {
     try
     {
         mongoose
@@ -278,7 +278,7 @@ export const databaseConnect = (DB_CONNECTION) => {
         })
         .then(() => {   
             console.log("connected to database");
-        })
+        })`
         
     }
  
@@ -286,19 +286,19 @@ export const databaseConnect = (DB_CONNECTION) => {
         console.error("error connecting to database", error.message);
     }
 
-}
+`}`
         
 
 Configuración de Variables de Entorno
 
-PORT= 3000
+`PORT= 3000
 DB_CONNECTION=mongodb+srv://Yoderick:24071222@cluster0.reidm.mongodb.net/DBLibrary
-AUTH_SECRET=123456789
+AUTH_SECRET=123456789`
 
 
 Estructura del Proyecto
 
-/project-root
+`/project-root
 |-- /server
 |   |-- /src
 |   |   |-- /controllers
@@ -319,7 +319,7 @@ Estructura del Proyecto
 |   |   |-- /utils
 |   |   |   |-- hash.js
 |-- .env
-|-- package.json
+|-- package.json`
 
 
 
